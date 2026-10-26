@@ -41,7 +41,10 @@ namespace BankAccountManager.Core
             else if (type == "withdraw") Withdraw(amount);
         }
 
-
+        public BankAccount(INotification notificationService)
+        {
+            this.notificationService = notificationService;
+        }
         public void ManageOperations()
         {
             Console.WriteLine("Операції рахунку керуються через інші методи.");
