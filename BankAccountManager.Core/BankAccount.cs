@@ -9,48 +9,86 @@ namespace BankAccountManager.Core
     public class BankAccount : IBankAccount, IAccountOperations
     {
         private decimal balance;
-        private decimal loanBalance;
-        private List<string> transactionHistory = new();
-        private bool isAuthenticated = false;
+
         private readonly INotification notificationService;
+        private readonly ITransactionHistory transactionHistory;
+
+        public BankAccount(
+            INotification notificationService,
+            ITransactionHistory transactionHistory)
+        {
+            this.notificationService = notificationService
+                ?? throw new ArgumentNullException(nameof(notificationService));
+
+            this.transactionHistory = transactionHistory
+                ?? throw new ArgumentNullException(nameof(transactionHistory));
+        }
 
         public void Deposit(decimal amount)
         {
+            if (amount <= 0)
+                throw new ArgumentException(
+                    "Сума поповнення повинна бути більшою за нуль.");
+
             balance += amount;
+
             AddTransaction($"Поповнення: {amount} грн");
+
             notificationService.SendBalanceChangeNotification(balance);
         }
 
         public void Withdraw(decimal amount)
         {
+            if (amount <= 0)
+                throw new ArgumentException(
+                    "Сума зняття повинна бути більшою за нуль.");
+
             if (amount > balance)
-            {
-                Console.WriteLine("Недостатньо коштів!");
-                return;
-            }
+                throw new InvalidOperationException(
+                    "Недостатньо коштів!");
+
             balance -= amount;
+
             AddTransaction($"Зняття: {amount} грн");
+
             notificationService.SendBalanceChangeNotification(balance);
         }
 
-        public decimal GetBalance() => balance;
+        public decimal GetBalance()
+        {
+            return balance;
+        }
 
         public void PerformTransaction(decimal amount, string type)
         {
-            if (type == "deposit") Deposit(amount);
-            else if (type == "withdraw") Withdraw(amount);
-        }
+            switch (type.ToLowerInvariant())
+            {
+                case "deposit":
+                    Deposit(amount);
+                    break;
 
+                case "withdraw":
+                    Withdraw(amount);
+                    break;
+
+                default:
+                    throw new ArgumentException(
+                        "Невідомий тип транзакції.");
+            }
+        }
 
         public void ManageOperations()
         {
-            Console.WriteLine("Операції рахунку керуються через інші методи.");
-        }
-        public void AddTransaction(string details)
-        {
-            transactionHistory.Add(details);
-            notificationService.SendTransactionNotification(details);
+            Console.WriteLine(
+                "Операції рахунку керуються через інші методи.");
         }
 
+        private void AddTransaction(string details)
+        {
+            transactionHistory.AddOperation(details);
+
+            notificationService.SendTransactionNotification(details);
+        }
     }
+
 }

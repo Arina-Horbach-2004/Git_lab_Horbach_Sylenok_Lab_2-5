@@ -4,9 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+/// Інтерфейс управління кредитним рахунком.
+
 namespace BankAccountManager.Core
 {
-    internal interface ICreditAccount
+    public interface ICreditAccount
     {
+        void ApplyForCredit(decimal amount);
+
+        void RepayCredit(decimal amount);
+
+        decimal GetCreditBalance();
     }
 }
