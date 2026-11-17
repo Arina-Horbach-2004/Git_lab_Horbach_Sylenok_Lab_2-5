@@ -14,3 +14,4 @@ namespace BankAccountManager.Core
 
     }
 }
+// teamlead: note about authentication 
