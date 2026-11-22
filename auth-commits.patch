@@ -1,0 +1,21 @@
+From 9f63d33531a75ef7c70fe3bda40e0d0a47f96445 Mon Sep 17 00:00:00 2001
+From: Arina Horbach <a.a.horbach@student.khai.edu>
+Date: Tue, 17 Nov 2026 16:35:15 +0100
+Subject: [PATCH] Teamlead: add authentication note
+
+---
+ BankAccountManager.Core/IAuthentication.cs | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/BankAccountManager.Core/IAuthentication.cs b/BankAccountManager.Core/IAuthentication.cs
+index da5d639..a95d28f 100644
+--- a/BankAccountManager.Core/IAuthentication.cs
++++ b/BankAccountManager.Core/IAuthentication.cs
+@@ -14,3 +14,4 @@ namespace BankAccountManager.Core
+ 
+     }
+ }
++// teamlead: note about authentication 
+-- 
+2.42.0.windows.2
+

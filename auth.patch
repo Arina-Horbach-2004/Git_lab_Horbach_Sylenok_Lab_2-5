@@ -1,0 +1,9 @@
+diff --git a/BankAccountManager.Core/IAuthentication.cs b/BankAccountManager.Core/IAuthentication.cs
+index da5d639..a95d28f 100644
+--- a/BankAccountManager.Core/IAuthentication.cs
++++ b/BankAccountManager.Core/IAuthentication.cs
+@@ -14,3 +14,4 @@ namespace BankAccountManager.Core
+ 
+     }
+ }
++// teamlead: note about authentication 
